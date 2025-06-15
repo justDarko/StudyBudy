@@ -28,6 +28,9 @@ ksp_version = "2.1.20-2.0.0"
 
 gms_version = "4.4.2"
 firebase-bom = "33.15.0"
+appcompat = "1.7.1"
+material = "1.12.0"
+kotlinx-serialization = "1.7.3"
 
 
 [libraries]
@@ -70,13 +73,97 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlinKapt = { id = "org.jetbrains.kotlin.kapt"}
 kotlinSymbolProcessing = { id = "com.google.devtools.ksp", version.ref = "ksp_version" }
 gmsGoogleService = { id = "com.google.gms.google-services", version.ref = "gms_version" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+[bundles]
+
+# Jetpack Compose (UI Toolkit)
+compose = [
+    "compose-ui",
+    "compose-ui-graphics",
+    "compose-ui-tooling-preview",
+    "compose-material3",
+    "compose-bom"
+]
+
+# Compose Testing
+compose-testing = [
+    "compose-ui-tooling",
+    "compose-ui-test-junit4",
+    "compose-ui-test-manifest"
+]
+
+# AndroidX Core
+androidx-core = [
+    "core-ktx",
+    "lifecycle-runtime-ktx",
+    "activity-compose"
+]
+
+# Hilt (Dependency Injection)
+hilt = [
+    "hilt-android",
+    "hilt-navigation-compose"
+]
+
+# Retrofit + Gson
+network = [
+    "retrofit",
+    "converter-gson",
+    "logging-interceptor"
+]
+
+# Paging 3
+paging = [
+    "paging-runtime-ktx",
+    "paging-compose"
+]
+
+# Firebase
+firebase = [
+    "firebase-auth",
+    "firebase-firestore",
+    "firebase-storage"
+]
+
+# Room (Local DB)
+room = [
+    "room-runtime",
+    "room-ktx"
+]
+
+# Testing
+unit-test = [
+    "junit",
+    "mockk",
+    "kotlinx-coroutines-test",
+    "turbine"
+]
+
+android-test = [
+    "ext-junit",
+    "espresso-core",
+    "compose-ui-test-junit4"
+]
+
+# Common UI libraries
+ui-utils = [
+    "coil-compose"
+]
+# Loggers
+loggers = [
+    "timber"
+]

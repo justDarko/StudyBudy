@@ -6,5 +6,6 @@ plugins {
     alias(libs.plugins.kotlinSymbolProcessing) apply false
     alias(libs.plugins.gmsGoogleService) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.android.library) apply false
 
 }
