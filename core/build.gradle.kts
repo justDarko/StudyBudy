@@ -1,10 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrainsKotlin)
-    alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.kotlinSymbolProcessing)
     alias(libs.plugins.gmsGoogleService)
-    kotlin("kapt")
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -46,6 +44,12 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
 
+    // Unit tests bundle ->
+    implementation(libs.bundles.unit.test)
+
+    // Android tests bundle ->
+    implementation(libs.bundles.android.test)
+
     // Loggers bundle ->
     implementation(libs.bundles.loggers)
 
@@ -56,9 +60,9 @@ dependencies {
 //    implementation(libs.paging.runtime.ktx)
 //    implementation(libs.paging.compose)
 
-    // Hilt (DI) ->
-    implementation(libs.bundles.hilt)
-    kapt(libs.hilt.android.compiler)
+//    // Hilt (DI) ->
+//    implementation(libs.bundles.hilt)
+//    kapt(libs.hilt.android.compiler)
 
     // Coroutines ->
     implementation(libs.kotlinx.coroutines.android)
@@ -76,4 +80,5 @@ dependencies {
 
     // Serialization ->
     implementation(libs.kotlinx.serialization.json)
+
 }

@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.kotlinSymbolProcessing)
     alias(libs.plugins.gmsGoogleService)
-    kotlin("kapt")
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -66,9 +65,9 @@ dependencies {
     // Compose navigation is defined for more clarity and consistency
     implementation(libs.navigation.compose)
 
-    // Hilt (DI) bundle ->
+    // Hilt (DI) ->
     implementation(libs.bundles.hilt)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.compiler)
 
     // UI utils bundle ->
     implementation(libs.bundles.ui.utils)
@@ -76,6 +75,11 @@ dependencies {
     // Loggers bundle ->
     implementation(libs.bundles.loggers)
 
+    // Firebase ->
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.bundles.firebase)
+
     implementation(project(":core"))
     implementation(project(":login"))
+    implementation(project(":home"))
 }

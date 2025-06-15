@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.solo.login"
+    namespace = "com.solo.home"
     compileSdk = 35
 
     defaultConfig {
