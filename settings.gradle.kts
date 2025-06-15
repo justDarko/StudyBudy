@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "StudyBudy"
 include(":app")
- 
+include(":login")
+include(":core")
