@@ -9,4 +9,7 @@ sealed interface Route {
 
     @Serializable
     data object RegisterScreen : Route
+
+    @Serializable
+    data object HomeScreen : Route
 }
