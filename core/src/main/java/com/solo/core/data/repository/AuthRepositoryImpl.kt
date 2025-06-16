@@ -67,4 +67,13 @@ class AuthRepositoryImpl @Inject constructor(
             CustomResult.Failure(e.message ?: "Unknown error")
         }
     }
+
+    override suspend fun isUserLoggedIn(): CustomResult<Boolean> {
+        return try {
+            val isLoggedIn = firebaseAuth.currentUser != null
+            CustomResult.Success(isLoggedIn)
+        } catch (e: Exception) {
+            CustomResult.Failure("Failed to check login state", e)
+        }
+    }
 }

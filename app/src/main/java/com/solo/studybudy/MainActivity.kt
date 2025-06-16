@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
 
             AppTheme(darkTheme = false) {
                 BackgroundTheme()
-                AppNavigator(isUserLoggedIn = isUserLoggedIn.value)
+                isUserLoggedIn.value?.let { userLoggedIn -> AppNavigator(isUserLoggedIn = userLoggedIn) }
             }
         }
     }

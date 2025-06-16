@@ -16,4 +16,6 @@ interface AuthRepository {
         email: String,
         password: String
     ): CustomResult<User>
+
+    suspend fun isUserLoggedIn(): CustomResult<Boolean>
 }
