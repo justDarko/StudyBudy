@@ -11,5 +11,8 @@ sealed interface Route {
     data object RegisterScreen : Route
 
     @Serializable
+    data object UserInterestsScreen : Route
+
+    @Serializable
     data object HomeScreen : Route
 }

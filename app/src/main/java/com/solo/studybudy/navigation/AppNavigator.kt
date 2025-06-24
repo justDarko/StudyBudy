@@ -6,7 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.solo.home.screen.HomeScreen
 import com.solo.login.screen.loginScreen.LoginScreen
-import com.solo.login.screen.register.RegisterScreen
+import com.solo.login.screen.registerScreen.RegisterScreen
+import com.solo.userInterests.presentation.screen.UserInterestScreen
 
 @Composable
 fun AppNavigator(
@@ -15,7 +16,8 @@ fun AppNavigator(
     val navController = rememberNavController()
 
     val startDestination = if (isUserLoggedIn) {
-        Route.HomeScreen
+        // Check if he set interests.
+        Route.UserInterestsScreen
     } else {
         Route.LoginScreen
     }
@@ -23,14 +25,18 @@ fun AppNavigator(
         navController = navController, startDestination = startDestination
     ) {
         composable<Route.LoginScreen> {
-            LoginScreen(
-                onNavigateToRegister = { navController.navigate(Route.RegisterScreen) },
-                onSuccessfulLogin = { navController.navigate(Route.HomeScreen) })
+            LoginScreen(onNavigateToRegister = { navController.navigate(Route.RegisterScreen) },
+                onSuccessfulLogin = { navController.navigate(Route.UserInterestsScreen) })
         }
         composable<Route.RegisterScreen> {
-            RegisterScreen(
-                onSuccessfulRegistration = {
-                    navController.popBackStack()
+            RegisterScreen(onSuccessfulRegistration = {
+                navController.popBackStack()
+            })
+        }
+        composable<Route.UserInterestsScreen> {
+            UserInterestScreen(
+                onSuccessfulAddedInterest = {
+                    navController.navigate(Route.HomeScreen)
                 }
             )
         }

@@ -1,6 +1,6 @@
 package com.solo.login.screen.loginScreen
 
-import AuthTextField
+import TextFieldComponent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.solo.core.presentation.components.ActionButtonPositive
 
 @Composable
 fun LoginScreen(
@@ -46,28 +46,27 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AuthTextField(value = email, label = "Email", onValueChange = {
+        TextFieldComponent(value = email, label = "Email", onValueChange = {
             email = it
         })
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        AuthTextField(
+        TextFieldComponent(
             value = password, label = "Password", onValueChange = {
                 password = it
             }, isPassword = true
         )
         Spacer(modifier = Modifier.height(6.dp))
 
-        Text(
-            buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color.Black)) {
-                    append("Don't have an account? ")
-                }
-                withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-                    append("Register!")
-                }
-            },
+        Text(buildAnnotatedString {
+            withStyle(style = SpanStyle(color = Color.Black)) {
+                append("Don't have an account? ")
+            }
+            withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                append("Register!")
+            }
+        },
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onNavigateToRegister() },
@@ -75,20 +74,15 @@ fun LoginScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            if (email.isNotBlank() &&
-                password.isNotBlank()
-            ) {
+        ActionButtonPositive(isEnabled = email.isNotBlank() && password.isNotBlank(),
+            title = "Login",
+            onActionButton = {
                 viewModel.onAction(
                     LoginUserActions.LoginUser(
-                        email = email,
-                        password = password
+                        email = email, password = password
                     )
                 )
-            }
-        }) {
-            Text(text = "Login")
-        }
+            })
         if (state.value.loggedInUser != null) {
             onSuccessfulLogin()
         }

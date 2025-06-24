@@ -79,7 +79,14 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
 
+    // Unit tests bundle ->
+    implementation(libs.bundles.unit.test)
+
+    // Android tests bundle ->
+    implementation(libs.bundles.android.test)
+
     implementation(project(":core"))
     implementation(project(":login"))
     implementation(project(":home"))
+    implementation(project(":userInterests"))
 }
