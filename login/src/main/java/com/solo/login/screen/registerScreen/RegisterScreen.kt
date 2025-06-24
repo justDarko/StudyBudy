@@ -1,14 +1,12 @@
-package com.solo.login.screen.register
+package com.solo.login.screen.registerScreen
 
-import AuthTextField
+import TextFieldComponent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,11 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.solo.core.presentation.components.ActionButtonPositive
 
 @Composable
 fun RegisterScreen(
-    onSuccessfulRegistration: () -> Unit,
-    viewModel: RegisterUserViewModel = hiltViewModel()
+    onSuccessfulRegistration: () -> Unit, viewModel: RegisterUserViewModel = hiltViewModel()
 ) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
@@ -40,25 +38,25 @@ fun RegisterScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AuthTextField(value = firstName, label = "First name", onValueChange = {
+        TextFieldComponent(value = firstName, label = "First name", onValueChange = {
             firstName = it
         })
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        AuthTextField(value = lastName, label = "Last name", onValueChange = {
+        TextFieldComponent(value = lastName, label = "Last name", onValueChange = {
             lastName = it
         })
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        AuthTextField(value = email, label = "Email", onValueChange = {
+        TextFieldComponent(value = email, label = "Email", onValueChange = {
             email = it
         })
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        AuthTextField(
+        TextFieldComponent(
             value = password, label = "Password", onValueChange = {
                 password = it
             }, isPassword = true
@@ -66,7 +64,7 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        AuthTextField(
+        TextFieldComponent(
             value = confirmPassword, label = "Confirm password", onValueChange = {
                 confirmPassword = it
             }, isPassword = true
@@ -74,26 +72,19 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            if (firstName.isNotBlank() &&
-                lastName.isNotBlank() &&
-                email.isNotBlank() &&
-                password.isNotBlank() &&
-                confirmPassword.isNotBlank()
-            ) {
+        ActionButtonPositive(isEnabled = firstName.isNotBlank() && lastName.isNotBlank() && email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank(),
+            title = "Register",
+            onActionButton = {
                 viewModel.onAction(
                     RegisterUserActions.RegisterUser(
                         firstName = firstName,
                         lastName = lastName,
                         email = email,
                         password = password,
-                        confirmPassword = confirmPassword,
+                        confirmPassword = confirmPassword
                     )
                 )
-            }
-        }) {
-            Text(text = "Register")
-        }
+            })
 
         if (state.value.userIsSuccessfullyRegistered) {
             onSuccessfulRegistration()

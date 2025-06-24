@@ -1,4 +1,4 @@
-package com.solo.login.screen.register
+package com.solo.login.screen.registerScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

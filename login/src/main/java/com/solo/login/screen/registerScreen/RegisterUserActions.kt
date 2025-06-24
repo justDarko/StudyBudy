@@ -1,4 +1,4 @@
-package com.solo.login.screen.register
+package com.solo.login.screen.registerScreen
 
 sealed interface RegisterUserActions {
     data class RegisterUser(
