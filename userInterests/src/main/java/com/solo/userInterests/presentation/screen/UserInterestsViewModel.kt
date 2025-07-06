@@ -33,8 +33,7 @@ class UserInterestsViewModel @Inject constructor(
         when (action) {
             is UserInterestsActions.SetUserInterestsAndJobTitle -> {
                 setUserInterestsAndJobTitle(
-                    interests = action.interests,
-                    jobTitle = action.jobTitle
+                    interests = action.interests, jobTitle = action.jobTitle
                 )
             }
 
@@ -66,14 +65,12 @@ class UserInterestsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = getUserInterestsUseCase()) {
                 is CustomResult.Success -> {
-                    if (!result.data)
-                        getInterests()
-                    else
-                        _state.update {
-                            it.copy(
-                                userAlreadyHasInterests = true
-                            )
-                        }
+                    if (!result.data) getInterests()
+                    else _state.update {
+                        it.copy(
+                            userAlreadyHasInterests = true
+                        )
+                    }
                 }
 
                 is CustomResult.Failure -> {
@@ -106,4 +103,17 @@ class UserInterestsViewModel @Inject constructor(
             }
         }
     }
+
+//    private fun tmpCoroutine() {
+//        val ioCoroutineContext: CoroutineContext =
+//            Dispatchers.IO + Job() + CoroutineName("IOCoroutine") + CoroutineExceptionHandler { _, _ ->
+//
+//            }
+//
+//        viewModelScope.launch(ioCoroutineContext) {
+//            Timber.d("Hello before sleep")
+//            delay(3000)
+//            Timber.d("Hello after sleep")
+//        }
+//    }
 }
