@@ -15,4 +15,15 @@ sealed interface Route {
 
     @Serializable
     data object HomeScreen : Route
+
+    @Serializable
+    data object FeedScreen : Route
+
+    @Serializable
+    data object SettingsScreen : Route
+}
+fun Route.shouldShowBottomBar(): Boolean {
+    return this !is Route.LoginScreen &&
+            this !is Route.RegisterScreen &&
+            this !is Route.UserInterestsScreen
 }

@@ -56,14 +56,6 @@ dependencies {
     // Retrofit ->
     implementation(libs.bundles.network)
 
-    // Paging 3 (For pagination) ->
-//    implementation(libs.paging.runtime.ktx)
-//    implementation(libs.paging.compose)
-
-//    // Hilt (DI) ->
-//    implementation(libs.bundles.hilt)
-//    kapt(libs.hilt.android.compiler)
-
     // Coroutines ->
     implementation(libs.kotlinx.coroutines.android)
 
@@ -81,4 +73,7 @@ dependencies {
     // Serialization ->
     implementation(libs.kotlinx.serialization.json)
 
+    // Data Store ->
+    implementation(libs.datastore.core)
+    implementation(libs.datastore.preferences)
 }
