@@ -1,6 +1,6 @@
 package com.solo.login.screen.registerScreen
 
-import TextFieldComponent
+import com.solo.core.presentation.components.TextFieldComponent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,13 +15,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.solo.core.presentation.components.ActionButtonPositive
 
 @Composable
 fun RegisterScreen(
-    onSuccessfulRegistration: () -> Unit, viewModel: RegisterUserViewModel = hiltViewModel()
+    onSuccessfulRegistration: () -> Unit,
+    viewModel: RegisterUserViewModel = hiltViewModel()
 ) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
@@ -31,48 +34,59 @@ fun RegisterScreen(
 
     val state = viewModel.state.collectAsState()
 
+    val isFormValid = listOf(
+        firstName, lastName, email, password, confirmPassword
+    ).all { it.isNotBlank() }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextFieldComponent(value = firstName, label = "First name", onValueChange = {
-            firstName = it
-        })
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextFieldComponent(value = lastName, label = "Last name", onValueChange = {
-            lastName = it
-        })
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextFieldComponent(value = email, label = "Email", onValueChange = {
-            email = it
-        })
-
-        Spacer(modifier = Modifier.height(8.dp))
+        TextFieldComponent(
+            value = firstName,
+            label = "First Name",
+            onValueChange = { firstName = it },
+            imeAction = ImeAction.Next
+        )
 
         TextFieldComponent(
-            value = password, label = "Password", onValueChange = {
-                password = it
-            }, isPassword = true
+            value = lastName,
+            label = "Last Name",
+            onValueChange = { lastName = it },
+            imeAction = ImeAction.Next
+        )
+
+        TextFieldComponent(
+            value = email,
+            label = "Email",
+            onValueChange = { email = it },
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next
+        )
+
+        TextFieldComponent(
+            value = password,
+            label = "Password",
+            onValueChange = { password = it },
+            isPassword = true,
+            imeAction = ImeAction.Next
+        )
+
+        TextFieldComponent(
+            value = confirmPassword,
+            label = "Confirm Password",
+            onValueChange = { confirmPassword = it },
+            isPassword = true,
+            imeAction = ImeAction.Done
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextFieldComponent(
-            value = confirmPassword, label = "Confirm password", onValueChange = {
-                confirmPassword = it
-            }, isPassword = true
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        ActionButtonPositive(isEnabled = firstName.isNotBlank() && lastName.isNotBlank() && email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank(),
+        ActionButtonPositive(
+            isEnabled = isFormValid,
             title = "Register",
             onActionButton = {
                 viewModel.onAction(
@@ -84,7 +98,8 @@ fun RegisterScreen(
                         confirmPassword = confirmPassword
                     )
                 )
-            })
+            }
+        )
 
         if (state.value.userIsSuccessfullyRegistered) {
             onSuccessfulRegistration()

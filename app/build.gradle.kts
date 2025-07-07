@@ -84,6 +84,10 @@ dependencies {
 
     // Android tests bundle ->
     implementation(libs.bundles.android.test)
+    
+    // Data Store ->
+    implementation(libs.datastore.core)
+    implementation(libs.datastore.preferences)
 
     implementation(project(":core"))
     implementation(project(":login"))

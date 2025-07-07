@@ -1,6 +1,6 @@
 package com.solo.userInterests.presentation.screen
 
-import TextFieldComponent
+import com.solo.core.presentation.components.TextFieldComponent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.FlowRow
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -32,9 +33,9 @@ fun UserInterestScreen(
     viewModel: UserInterestsViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
-    if (state.value.userAlreadyHasInterests || state.value.userSuccessfullySetInterests) {
-        onSuccessfulAddedInterest()
-        return
+    val success = state.value.userAlreadyHasInterests || state.value.userSuccessfullySetInterests
+    LaunchedEffect(success) {
+        if (success) onSuccessfulAddedInterest()
     }
     var jobTitle by remember { mutableStateOf("") }
 

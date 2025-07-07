@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.solo.core.CustomResult
 import com.solo.core.data.FIREBASE_USERS_COLLECTION
+import com.solo.core.data.local.dataStore.DataStoreManager
 import com.solo.core.data.remote.requestModel.UserRequestModel
 import com.solo.core.domain.model.User
 import com.solo.core.domain.repository.AuthRepository
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    private val firebaseFirestore: FirebaseFirestore
+    private val firebaseFirestore: FirebaseFirestore,
+    private val dataStoreManager: DataStoreManager
 ) : AuthRepository {
 
     override suspend fun registerUser(
@@ -68,12 +70,39 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun isUserLoggedIn(): CustomResult<Boolean> {
+    override suspend fun getUser(): CustomResult<User> {
         return try {
-            val isLoggedIn = firebaseAuth.currentUser != null
-            CustomResult.Success(isLoggedIn)
+            val firebaseUser = firebaseAuth.currentUser
+                ?: return CustomResult.Failure("User is not logged in")
+
+            val userId = firebaseUser.uid
+            val email = firebaseUser.email ?: ""
+
+            val snapshot = firebaseFirestore
+                .collection("users")
+                .document(userId)
+                .get()
+                .await()
+
+            if (!snapshot.exists()) {
+                return CustomResult.Failure("User data not found in Firestore")
+            }
+
+            val user = User(
+                id = userId,
+                firstName = snapshot.getString("firstName").orEmpty(),
+                lastName = snapshot.getString("lastName").orEmpty(),
+                email = email,
+                jobTitle = snapshot.getString("jobTitle").orEmpty(),
+                userInterests = snapshot.get("userInterests") as? List<String> ?: emptyList()
+            )
+
+            dataStoreManager.saveUser(user)
+
+            CustomResult.Success(user)
         } catch (e: Exception) {
-            CustomResult.Failure("Failed to check login state", e)
+            CustomResult.Failure("Failed to fetch user data", e)
         }
     }
+
 }

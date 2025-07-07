@@ -17,5 +17,5 @@ interface AuthRepository {
         password: String
     ): CustomResult<User>
 
-    suspend fun isUserLoggedIn(): CustomResult<Boolean>
+    suspend fun getUser(): CustomResult<User>
 }
