@@ -33,7 +33,7 @@ class UserInterestsViewModel @Inject constructor(
         when (action) {
             is UserInterestsActions.SetUserInterestsAndJobTitle -> {
                 setUserInterestsAndJobTitle(
-                    interests = action.interests, jobTitle = action.jobTitle
+                    interest = action.interest, jobTitle = action.jobTitle
                 )
             }
 
@@ -80,12 +80,12 @@ class UserInterestsViewModel @Inject constructor(
         }
     }
 
-    private fun setUserInterestsAndJobTitle(interests: List<String>, jobTitle: String) {
+    private fun setUserInterestsAndJobTitle(interest: String, jobTitle: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = setUserInterestsUseCase(
                 SetUserInterestsUseCase.Params(
                     jobTitle = jobTitle,
-                    userInterests = interests,
+                    userInterest = interest,
                 )
             )
             when (result) {

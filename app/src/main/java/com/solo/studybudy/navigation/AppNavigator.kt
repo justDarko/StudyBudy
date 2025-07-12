@@ -9,11 +9,13 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.PostAdd
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,13 +25,14 @@ import androidx.navigation.compose.rememberNavController
 import com.solo.core.domain.model.User
 import timber.log.Timber
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigator(
     user: User?
 ) {
     val startDestination = if (user?.id?.isNotBlank() == true) {
         // Check if he set interests.
-        if (user.userInterests.isEmpty())
+        if (user.userInterest.isEmpty())
             Route.UserInterestsScreen
         else Route.HomeScreen
     } else {
@@ -79,35 +82,43 @@ fun AppNavigator(
         is Route.SettingsScreen -> 2
         else -> -1
     }
-    Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
-        if (currentRoute.shouldShowBottomBar()) {
-            NavigationBar {
-                navigationMenu.fastForEachIndexed { index, item ->
-                    NavigationBarItem(selected = indexOnSelectedItem == index, onClick = {
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }, icon = {
-                        if (indexOnSelectedItem == index) Icon(
-                            imageVector = item.selectedIcon,
-                            contentDescription = "Selected Tab Icon"
-                        )
-                        else Icon(
-                            imageVector = item.unselectedIcon,
-                            contentDescription = "Unselected Tab Icon"
-                        )
-                    }, label = {
-                        Text(text = item.title)
-                    })
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "Study Pal")
                 }
+            )
+        },
+        bottomBar = {
+            if (currentRoute.shouldShowBottomBar()) {
+                NavigationBar {
+                    navigationMenu.fastForEachIndexed { index, item ->
+                        NavigationBarItem(selected = indexOnSelectedItem == index, onClick = {
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }, icon = {
+                            if (indexOnSelectedItem == index) Icon(
+                                imageVector = item.selectedIcon,
+                                contentDescription = "Selected Tab Icon"
+                            )
+                            else Icon(
+                                imageVector = item.unselectedIcon,
+                                contentDescription = "Unselected Tab Icon"
+                            )
+                        }, label = {
+                            Text(text = item.title)
+                        })
+                    }
 
+                }
             }
-        }
-    }) { contentPadding ->
+        }) { contentPadding ->
         NavHostSetup(
             modifier = Modifier
                 .fillMaxSize()

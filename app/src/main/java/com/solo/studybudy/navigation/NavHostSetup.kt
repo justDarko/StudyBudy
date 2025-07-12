@@ -29,7 +29,7 @@ fun NavHostSetup(
             LoginScreen(onNavigateToRegister = { navController.navigate(Route.RegisterScreen) },
                 onSuccessfulLogin = {
                     navController.navigate(
-                        if (user?.userInterests?.isNotEmpty() == true) Route.HomeScreen else Route.UserInterestsScreen
+                        if (user?.userInterest?.isNotEmpty() == true) Route.HomeScreen else Route.UserInterestsScreen
                     )
                 })
         }

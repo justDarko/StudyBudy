@@ -31,7 +31,7 @@ class DataStoreManager @Inject constructor(
             prefs[stringPreferencesKey("USER_LAST_NAME")] = user.lastName
             prefs[stringPreferencesKey("USER_EMAIL")] = user.email
             prefs[stringPreferencesKey("USER_JOB_TITLE")] = user.jobTitle
-            prefs[stringPreferencesKey("USER_INTERESTS")] = user.userInterests.joinToString(",")
+            prefs[stringPreferencesKey("USER_INTEREST")] = user.userInterest
         }
     }
 
@@ -43,7 +43,7 @@ class DataStoreManager @Inject constructor(
             lastName = prefs[stringPreferencesKey("USER_LAST_NAME")] ?: "",
             email = prefs[stringPreferencesKey("USER_EMAIL")] ?: "",
             jobTitle = prefs[stringPreferencesKey("USER_JOB_TITLE")] ?: "",
-            userInterests = prefs[stringPreferencesKey("USER_INTERESTS")]?.split(",") ?: emptyList()
+            userInterest = prefs[stringPreferencesKey("USER_INTEREST")] ?: ""
         )
     }
 }
