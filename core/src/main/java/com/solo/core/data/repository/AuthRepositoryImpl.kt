@@ -94,7 +94,7 @@ class AuthRepositoryImpl @Inject constructor(
                 lastName = snapshot.getString("lastName").orEmpty(),
                 email = email,
                 jobTitle = snapshot.getString("jobTitle").orEmpty(),
-                userInterests = snapshot.get("userInterests") as? List<String> ?: emptyList()
+                userInterest = snapshot.getString("userInterest").orEmpty()
             )
 
             dataStoreManager.saveUser(user)

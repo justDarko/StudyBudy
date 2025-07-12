@@ -6,5 +6,5 @@ data class User(
     val lastName: String = "",
     val email: String = "",
     val jobTitle: String = "",
-    val userInterests: List<String> = emptyList()
+    val userInterest: String = ""
 )

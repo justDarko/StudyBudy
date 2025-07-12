@@ -64,4 +64,7 @@ dependencies {
     // Hilt (DI) ->
     implementation(libs.bundles.hilt)
     ksp(libs.hilt.compiler)
+
+    // Loggers bundle ->
+    implementation(libs.bundles.loggers)
 }

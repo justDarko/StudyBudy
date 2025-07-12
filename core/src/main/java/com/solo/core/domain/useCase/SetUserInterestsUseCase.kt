@@ -11,13 +11,13 @@ class SetUserInterestsUseCase @Inject constructor(
 
     override suspend operator fun invoke(params: Params): CustomResult<Boolean> {
         return userRepository.setUserJobTitleAndInterests(
-            interests = params.userInterests,
+            interest = params.userInterest,
             jobTitle = params.jobTitle
         )
     }
 
     data class Params(
-        val userInterests: List<String>,
+        val userInterest: String,
         val jobTitle: String
     )
 }

@@ -64,10 +64,14 @@ object AppModule {
 
     @Provides
     fun provideUserRepository(
-        firebaseAuth: FirebaseAuth, firebaseFirestore: FirebaseFirestore
+        firebaseAuth: FirebaseAuth,
+        firebaseFirestore: FirebaseFirestore,
+        dataStoreManager: DataStoreManager
     ): UserRepository {
         return UserRepositoryImpl(
-            firebaseAuth = firebaseAuth, firebaseFirestore = firebaseFirestore
+            firebaseAuth = firebaseAuth,
+            firebaseFirestore = firebaseFirestore,
+            dataStoreManager = dataStoreManager
         )
     }
 

@@ -1,6 +1,5 @@
 package com.solo.userInterests.presentation.screen
 
-import com.solo.core.presentation.components.TextFieldComponent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.FlowRow
@@ -14,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.solo.core.presentation.components.ActionButtonPositive
 import com.solo.core.presentation.components.BorderTextComponent
+import com.solo.core.presentation.components.TextFieldComponent
 import com.solo.core.presentation.components.UserAvatarComponent
 import timber.log.Timber
 
@@ -39,7 +38,7 @@ fun UserInterestScreen(
     }
     var jobTitle by remember { mutableStateOf("") }
 
-    val chosenInterests = remember { mutableStateListOf<String>() }
+    val chosenInterest = remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -79,14 +78,14 @@ fun UserInterestScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     state.value.interests.forEach { interest ->
-                        val isSelected = chosenInterests.contains(interest.id)
+                        val isSelected = chosenInterest.equals(interest.name)
                         BorderTextComponent(text = interest.name,
                             isSelected = isSelected,
                             onClick = {
                                 if (isSelected) {
-                                    chosenInterests.remove(interest.id)
+                                    chosenInterest.value = ""
                                 } else {
-                                    chosenInterests.add(interest.id)
+                                    chosenInterest.value = interest.id
                                 }
                             })
                     }
@@ -96,13 +95,13 @@ fun UserInterestScreen(
 
         // Fixed bottom button
         ActionButtonPositive(title = "Done",
-            isEnabled = jobTitle.isNotBlank() && chosenInterests.isNotEmpty(),
+            isEnabled = jobTitle.isNotBlank() && chosenInterest.value.isNotEmpty(),
             modifier = Modifier.align(Alignment.BottomCenter),
             onActionButton = {
-                Timber.d("Chosen interests are: $chosenInterests")
+                Timber.d("Chosen interests are: $chosenInterest")
                 viewModel.onAction(
                     UserInterestsActions.SetUserInterestsAndJobTitle(
-                        interests = chosenInterests, jobTitle = jobTitle
+                        interest = chosenInterest.value, jobTitle = jobTitle
                     )
                 )
             })
